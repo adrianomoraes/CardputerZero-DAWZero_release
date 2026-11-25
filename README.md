@@ -23,6 +23,18 @@
 
 Record external instruments over USB audio interfaces (e.g., M-Audio M-Track Duo / `PCM2900C`) or the built-in `ES8389` codec, host **PianoZero** and **DXZero** headlessly over a virtual PipeWire `INST BUS` with live parameter control inside `MID → 2:INST`, edit clips with 16-step `Ctrl+Z`/`Ctrl+Y` Undo & Redo, stack modular `.so` DSP effects, and export Ardour-compatible WAV/MIDI stems and stereo mixdowns.
 
+<div align="center">
+
+| `TRK → CTRL` — 8-Track Console | `TRK → TIME` — Multitrack Timeline | `TRK → WAVE` — Waveform & Ruler |
+|:---:|:---:|:---:|
+| ![TRK CTRL](docs/images/tab-trk-ctrl.png) | ![TRK TIME](docs/images/tab-trk-time.png) | ![TRK WAVE](docs/images/tab-trk-wave.png) |
+| **`TRK → CLIP` — 4 Subtracks (`C1–C4`)** | **`MIX` — Channel Strip** | **`FX` — Modular DSP Chain** |
+| ![TRK CLIP](docs/images/tab-trk-clip.png) | ![MIX Tab](docs/images/tab-mix.png) | ![FX Tab](docs/images/tab-fx.png) |
+| **`MID → 1:ROUT` — Hosted Inst & Bounce** | **`MID → 2:INST` — Live Inst Controls** | **`SES → 2:MON` — Real-Time Monitor** |
+| ![MID ROUT](docs/images/tab-mid-rout.png) | ![MID INST](docs/images/tab-mid-inst.png) | ![SES MON](docs/images/tab-ses-mon.png) |
+
+</div>
+
 ---
 
 ## Releases & Downloads

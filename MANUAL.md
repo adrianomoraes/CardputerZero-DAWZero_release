@@ -47,6 +47,11 @@ On startup, DAW Zero initializes the V61 toggle buttons to **`1: ON`**, **`2: OF
 ## 2. Tab-by-Tab Reference
 
 ### Tab 1: `TRK` — 4 Subtabs (`CTRL` | `TIME` | `WAVE` | `CLIP`)
+
+| `CTRL` | `TIME` | `WAVE` | `CLIP` |
+|:---:|:---:|:---:|:---:|
+| ![TRK CTRL](docs/images/tab-trk-ctrl.png) | ![TRK TIME](docs/images/tab-trk-time.png) | ![TRK WAVE](docs/images/tab-trk-wave.png) | ![TRK CLIP](docs/images/tab-trk-clip.png) |
+
 Switch between the 4 subtabs anytime on `TRK` using **`V`**, **`Q`/`E`**, or **V61 Knob 4** (in `NAV` mode):
 - **`CTRL` (Controls, Source & Volume):**
   - Shows all 8 tracks (`AUD 1–6` in Teal, `MID 1–2` in Magenta) with bright toggled pill badges for **Rec Arm (`R`)**, **Mute (`M`)**, **Solo (`S`)**, a **recorded indicator dot** (`●` + subtrack count `x1..x4`), live **Volume %** (`Z`/`C`), **Source text**, and peak meter.
@@ -65,6 +70,9 @@ Switch between the 4 subtabs anytime on `TRK` using **`V`**, **`Q`/`E`**, or **V
   - All edits support **16-step `Ctrl+Z` (Undo) and `Ctrl+Y` (Redo)**!
 
 ### Tab 2: `MIX` — Channel Strip & External Input Routing
+
+![MIX Tab](docs/images/tab-mix.png)
+
 Select any track (`AUD 1–6` or `MID 1–2`) on row 1, then configure:
 - **Volume** (`0%` – `150%`) and **Pan** (`L100` – `C` – `R100`).
 - **For Audio Tracks (`AUD 1–6`):**
@@ -76,6 +84,9 @@ Select any track (`AUD 1–6` or `MID 1–2`) on row 1, then configure:
 - **Master Vol:** Overall stereo master bus level (with built-in soft limiter).
 
 ### Tab 3: `FX` — Modular Filter & Effects Chain
+
+![FX Tab](docs/images/tab-fx.png)
+
 - Each audio track (`AUD 1–6`) has **4 insert slots** (`Slot 1/4` – `4/4`). Selecting a MIDI track targets the **Master Bus** (`Slot 1/2` – `2/2`).
 - **Row 0 (`Target / Slot`):** `Z/C` switches slots.
 - **Row 1 (`FX Plugin`):** `Z/C` cycles through all built-in and external `.so` plugins:
@@ -93,6 +104,11 @@ Select any track (`AUD 1–6` or `MID 1–2`) on row 1, then configure:
 - Quick rows to **Start/Stop Rec**, toggle **Metronome**, or **Clear** the selected track's take.
 
 ### Tab 5: `MID` — 2 Subtabs (`1:ROUT` | `2:INST`)
+
+| `1:ROUT` — Routing & Hosted Instruments | `2:INST` — Live Exported Instrument Controls |
+|:---:|:---:|
+| ![MID ROUT](docs/images/tab-mid-rout.png) | ![MID INST](docs/images/tab-mid-inst.png) |
+
 Switch between subtabs anytime on `MID` using **`V`**, **`Q`/`E`**, or **V61 Knob 4 (`NAV` mode)**:
 - **`1:ROUT` (Hosted Instruments, External MIDI & Live Bounce):**
   - **`Host Inst`:** Pick **`PianoZero`**, **`DXZero`**, or **`None`** (`Z`/`C`) and press **`ENTER`** to launch it headlessly inside DAW Zero! DAW Zero automatically creates the PipeWire `INST BUS`, wires `MID 1` and `AUD 1`, and opens a Unix control socket (`DAWZERO_CTRL_SOCK`) so the instrument's controls appear in **`2:INST`**.
@@ -109,6 +125,9 @@ Switch between subtabs anytime on `MID` using **`V`**, **`Q`/`E`**, or **V61 Kno
   - **`PianoZero` exports:** `Sound Bank`, `Touch Curve`, `Reverb FX` (`ON`/`OFF`), `Reverb Send`, `Tone Tilt` EQ, `Pedal/Mech` sounds (`ON`/`OFF`), and `Pedal Level`.
 
 ### Tab 6: `AUD` — Audio Interface & Latency Settings
+
+![AUD Tab](docs/images/tab-aud.png)
+
 - **`Input Dev`:** Select capture device (`[DEF] Auto (PipeWire)`, `[USB] USB Audio (PCM2900C)`, `[INT] Built-in (ES8389)`, or direct ALSA `[HW-*]`).
 - **`Output Dev`:** Select playback device.
 - **`Buffer Size`:** `128`, `256`, or `512` frames (`256` frames ≈ 5.3 ms per buffer is a great default for glitch-free duplex recording).
@@ -117,6 +136,11 @@ Switch between subtabs anytime on `MID` using **`V`**, **`Q`/`E`**, or **V61 Kno
 - Bottom bar shows live **DSP CPU %** and **XRUN** counter.
 
 ### Tab 7: `SES` — 2 Subtabs (`1:PROJ` | `2:MON`)
+
+| `1:PROJ` — Sessions, Backups & Export | `2:MON` — Real-Time Audio & Hardware Health |
+|:---:|:---:|
+| ![SES PROJ](docs/images/tab-ses-proj.png) | ![SES MON](docs/images/tab-ses-mon.png) |
+
 Switch between subtabs with **`V`**, **`Q`/`E`**, or **V61 Knob 4 (`CC 23`)**:
 - **`1:PROJ` (Project, Backups & Custom Names):**
   - Displays the active session directory (`~/DAWZero-Sessions/<SessionName>/`), live file summary (`WAV` / `MID` counts, active track counts, total session MB, free microSD GB).
