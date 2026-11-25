@@ -1,0 +1,37 @@
+{
+  "name": "DAWZero",
+  "package": "daw-zero",
+  "package_name": "daw-zero",
+  "version": "0.3.0",
+  "app_name": "DAW Zero",
+  "bin_name": "M5CardputerZero-DAWZero",
+  "description": "Lightweight Multitrack Audio & MIDI Pocket DAW with Modular DSP Filters/Effects, USB Audio Interface Support & Digital Instrument Routing.",
+  "maintainer": "Adriano Dias Moraes <adriano.moraes@gmail.com>",
+  "homepage": "https://github.com/adrianomoraes/CardputerZero-DAWZero",
+  "runtime": "legacy-deb-only",
+  "lvgl_version": "9.5",
+  "caps": ["keyboard", "audio", "midi", "filesystem"],
+  "store": {
+    "summary": "Multitrack Audio/MIDI Pocket DAW with live USB Audio recording, modular .so FX/Filter plugins, and ALSA MIDI routing to PianoZero/DXZero/external synths.",
+    "categories": ["AudioVideo", "Music", "Audio"],
+    "license": "MIT",
+    "source_repo": "https://github.com/adrianomoraes/CardputerZero-DAWZero_release",
+    "icon": "assets/daw-zero-icon.png",
+    "screenshots": [
+      "docs/images/tab-trk-ctrl.png",
+      "docs/images/tab-trk-time.png",
+      "docs/images/tab-trk-wave.png",
+      "docs/images/tab-trk-clip.png",
+      "docs/images/tab-mix.png",
+      "docs/images/tab-fx.png",
+      "docs/images/tab-mid-inst.png",
+      "docs/images/tab-ses-mon.png"
+    ],
+    "permissions": {
+      "keyboard_input": true,
+      "audio": true,
+      "midi": true,
+      "filesystem": true
+    }
+  }
+}
