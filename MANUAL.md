@@ -1,6 +1,6 @@
 # DAW Zero — User & Developer Manual
 
-**Version:** 0.3.0  
+**Version:** 0.4.0  
 **Target Hardware:** M5Stack CardputerZero (CM0 / ARM64 Linux, 320 × 170 LCD, 46-key keyboard)  
 **Audio / MIDI Stack:** PipeWire + ALSA PCM (Full-Duplex 48 kHz) + ALSA Sequencer (`SND_SEQ_OPEN_DUPLEX`)  
 **Release History:** See [CHANGELOG.md](CHANGELOG.md)
@@ -17,16 +17,19 @@
 | `V` or `Q` / `E` | Switch subtabs on **`TRK`** (`CTRL / TIME / WAVE / CLIP`), **`MID`** (`1:ROUT / 2:INST`), and **`SES`** (`1:PROJ / 2:MON`) |
 | `F` / `X` (or `↑` / `↓`) | Move selection Up / Down (track, row, or subtrack `C1–C4`) |
 | `Z` / `C` (or `←` / `→`) | Adjust value, scrub playhead, move/trim subtracks, or cycle options |
-| `U` / `I` | **Zoom Out / Zoom In** on `TIME`, `WAVE`, `CLIP` (`ALL ↔ 32B ↔ 16B ↔ 8B ↔ 4B`) |
+| `U` / `I` | **Horizontal Zoom Out / In** on `TIME`, `WAVE`, `CLIP` (`ALL ↔ 32B ↔ 16B ↔ 8B ↔ 4B`) |
+| `Alt+U` / `Alt+I` (`[` / `]`) | **Vertical Amplitude Zoom Out / In** on `WAVE` & `CLIP` (`1x ↔ 2x ↔ 4x ↔ 8x ↔ 16x`) |
 | `T` | Cycle edit tool on `TRK → CLIP` (`MOVE / TRM-L / TRM-R / SPLIT / JOIN / DEL`) |
 | `D` (tap twice) | Fast delete selected **Track** (on `CTRL/TIME/WAVE`) or **Subtrack `C1–C4`** (on `CLIP`) |
 | `Ctrl+Z` / `Ctrl+Y` | **16-step Undo / Redo** (also `Ctrl+Shift+Z` for Redo) |
 | `ENTER` | Execute row action (Arm, Bypass, Split/Join/Del, Launch Inst, Rename, Save, Rescan) |
 | `SPACE` | Play / Stop transport |
 | `R` | Start / Stop Recording on armed tracks |
-| `A` / `M` / `S` | Arm / Mute / Solo currently selected track |
+| `A` / `M` / `S` | Arm / Mute / Solo selected track (or Mute / Solo selected subtrack `C1–C4` on `TRK → CLIP`) |
+| `K` | Toggle **Metronome Click** sound (`ON` / `OFF`) globally |
 | `L` | Toggle Loop mode |
 | `BACKSPACE` | Rewind playhead to Bar `1.1` |
+| **Hold `Sym+M` (`?`)** | Show context-sensitive **Help overlay** with all commands for the current view |
 | **Hold `ESC` (800 ms)** | Auto-save session cleanly and exit to `APPLaunch` |
 
 ### Alesis V61 MIDI Controller (Dual-Layer Knobs)
@@ -61,6 +64,7 @@ Switch between the 4 subtabs anytime on `TRK` using **`V`**, **`Q`/`E`**, or **V
   - Shows full track details (`R`/`M`/`S`, Source, clip count, active FX, zoom level) and a zoomable **56-bar audio waveform** (`AUD 1–6`) or **full-song MIDI piano-roll** (`MID 1–2`) with numbered bar ruler and literal **Knob 3** playhead scrubbing.
 - **`CLIP` (4 Stacked Subtracks `C1–C4` for Audio & MIDI):**
   - Works for **both Audio (`AUD 1–6`) and MIDI (`MID 1–2`)** tracks. Every new recording automatically lands in the next free subtrack (`C1→C4`) with zero bleed from existing subtracks.
+  - Each clip bar renders a **mini waveform amplitude preview** (Audio) or **note activity preview** (MIDI) inside the bar so you can immediately see where sound starts and peaks, alongside per-subtrack **`M`** (Mute) and **`S`** (Solo) badges toggled via `M` / `S`.
   - Select `C1–C4` (`F`/`X` or Knob 2), switch tools (`T` or `ENTER`):
     - **`MOVE`**: Push/drag subtrack (`Z`/`C` ±1 beat, or literal **Knob 3** across visible window)
     - **`TRM-L` / `TRM-R`**: Non-destructively trim start or finish (`Z`/`C` or Knob 3)
@@ -121,7 +125,7 @@ Switch between subtabs anytime on `MID` using **`V`**, **`Q`/`E`**, or **V61 Kno
   - **`Rescan MIDI`:** Press `ENTER` after hot-plugging a USB-MIDI instrument to discover its ports and resync V61 LEDs.
 - **`2:INST` (Dynamic Hosted Instrument Controls):**
   - Displays the live controls exported by whichever digital instrument is currently hosted via the generic **`DAWZERO_CTRL_SOCK`** protocol (`rotary`, `numeric`, `toggle`, and `trigger` controls). Adjust with **`Z`/`C`** or smoothly sweep with **V61 Knob 3**; toggle/trigger with **`ENTER`**:
-  - **`DXZero` exports:** `Bank`, `Instrument` (Patch), `Seq Track` (`FM1/FM2/FM3/DRUMS/FM0 LIVE`), `Seq Pattern` (`A–D`), `Seq Play` (`PLAY`/`STOP`), `Seq Rewind`, `FX Wet Mix`, and `Filter Cutoff`.
+  - **`DXZero` exports:** `Bank`, `Instrument` (Patch), `Seq Track` (`FM1/FM2/FM3/DRUMS/FM0 LIVE`), `Seq Pattern` (`A–D`), `Seq Play` (`PLAY`/`STOP`), `Seq Rewind`, `Sync DAW BPM` (`ON` by default — auto-aligns DXZero's sequencer & tempo-synced FX to DAW Zero's BPM), `FX Wet Mix`, and `Filter Cutoff`.
   - **`PianoZero` exports:** `Sound Bank`, `Touch Curve`, `Reverb FX` (`ON`/`OFF`), `Reverb Send`, `Tone Tilt` EQ, `Pedal/Mech` sounds (`ON`/`OFF`), and `Pedal Level`.
 
 ### Tab 6: `AUD` — Audio Interface & Latency Settings

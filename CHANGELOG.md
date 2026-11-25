@@ -9,6 +9,30 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ---
 
+## [0.4.0] - 2026-11-25
+
+### Added
+- **Hosted Instrument Sequencer Auto-BPM Sync (`BPM|<bpm>`)**:
+  - DAW Zero now pushes project BPM over `DAWZERO_CTRL_SOCK` on instrument launch (`READY`) and whenever BPM changes, allowing sequencer-equipped instruments like `DXZero` to auto-align to the DAW project tempo (`Sync DAW BPM`, ON by default).
+- **Mini Waveform & MIDI Activity Previews + Per-Subtrack `M`/`S` in `TRK → CLIP`**:
+  - Each `C1–C4` clip bar now displays centered mini waveform amplitude bars (Audio) or note ticks (MIDI) over a baseline so audio start/peaks are immediately visible when moving, trimming, or splitting.
+  - Added per-subtrack Mute (`M`) and Solo (`S`) badges and real-time audio/MIDI playback support inside `TRK → CLIP`.
+- **Vertical Amplitude Zoom (`Alt+U` / `Alt+I` = `[` / `]`) & Taller `WAVE` View**:
+  - Added 5 vertical amplitude gain levels (`1x`, `2x`, `4x`, `8x`, `16x`) across `TRK → WAVE` (expanded to `86 px` tall) and `TRK → CLIP` mini waveforms.
+- **Footer-Free Workspace & Context-Sensitive Help Overlay (`Alt+M` `?` / `Fn+H` / `H`)**:
+  - Removed the static bottom tips bar across all views (reclaiming 17 px of vertical space; transient toasts and delete confirmations still appear briefly when needed).
+  - Press and hold (> 250 ms) or tap **`Alt+M` (`?`)**, **`Fn+H` (`HELP`)**, or **`H`** to view context-sensitive commands for the active tab/subtab.
+- **Global `K` Key Metronome Click Toggle**:
+  - Press **`K`** on any tab to toggle the metronome click (`ON` / `OFF`) with toast confirmation.
+
+### Fixed
+- **Click-Free `INST BUS` Adaptive Micro-Resampling**:
+  - Replaced hard ring-buffer drops with gentle 1–4 frame linear-interpolated clock-drift absorption and smooth underrun decay, eliminating cracks when playing sampled `DXZero` drums.
+- **Multi-Track `Bounce To` (`AUD 1–6`) & `MID 1/2` Routing**:
+  - Selecting `Bounce To` (`AUD 1–6`) or launching a hosted instrument now automatically routes `INST BUS`, arms/monitors the target audio track, disarms the previous `INST BUS` track, wires both `MID 1` and `MID 2`, and isolates `bounce_midi_trk_` during Live Bounce.
+
+---
+
 ## [0.3.0] - 2026-11-25
 
 ### Added
