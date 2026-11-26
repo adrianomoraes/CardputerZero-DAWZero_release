@@ -2,7 +2,7 @@
   "name": "DAWZero",
   "package": "daw-zero",
   "package_name": "daw-zero",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "app_name": "DAW Zero",
   "bin_name": "M5CardputerZero-DAWZero",
   "description": "Lightweight Multitrack Audio & MIDI Pocket DAW with Modular DSP Filters/Effects, USB Audio Interface Support & Digital Instrument Routing.",

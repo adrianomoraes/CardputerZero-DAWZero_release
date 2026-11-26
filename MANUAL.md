@@ -1,6 +1,6 @@
 # DAW Zero — User & Developer Manual
 
-**Version:** 0.4.0  
+**Version:** 0.4.1  
 **Target Hardware:** M5Stack CardputerZero (CM0 / ARM64 Linux, 320 × 170 LCD, 46-key keyboard)  
 **Audio / MIDI Stack:** PipeWire + ALSA PCM (Full-Duplex 48 kHz) + ALSA Sequencer (`SND_SEQ_OPEN_DUPLEX`)  
 **Release History:** See [CHANGELOG.md](CHANGELOG.md)
@@ -19,7 +19,8 @@
 | `Z` / `C` (or `←` / `→`) | Adjust value, scrub playhead, move/trim subtracks, or cycle options |
 | `U` / `I` | **Horizontal Zoom Out / In** on `TIME`, `WAVE`, `CLIP` (`ALL ↔ 32B ↔ 16B ↔ 8B ↔ 4B`) |
 | `Alt+U` / `Alt+I` (`[` / `]`) | **Vertical Amplitude Zoom Out / In** on `WAVE` & `CLIP` (`1x ↔ 2x ↔ 4x ↔ 8x ↔ 16x`) |
-| `T` | Cycle edit tool on `TRK → CLIP` (`MOVE / TRM-L / TRM-R / SPLIT / JOIN / DEL`) |
+| `T` | Cycle edit tool on `TRK → CLIP` (`SPLIT / MOVE / TRM-L / TRM-R / DUP / JOIN / DEL`) |
+| `Ctrl+C` / `Ctrl+V` | Copy / Paste selected subtrack `C1–C4` at the playhead (Audio→Audio or MIDI→MIDI) |
 | `D` (tap twice) | Fast delete selected **Track** (on `CTRL/TIME/WAVE`) or **Subtrack `C1–C4`** (on `CLIP`) |
 | `Ctrl+Z` / `Ctrl+Y` | **16-step Undo / Redo** (also `Ctrl+Shift+Z` for Redo) |
 | `ENTER` | Execute row action (Arm, Bypass, Split/Join/Del, Launch Inst, Rename, Save, Rescan) |
@@ -66,12 +67,13 @@ Switch between the 4 subtabs anytime on `TRK` using **`V`**, **`Q`/`E`**, or **V
   - Works for **both Audio (`AUD 1–6`) and MIDI (`MID 1–2`)** tracks. Every new recording automatically lands in the next free subtrack (`C1→C4`) with zero bleed from existing subtracks.
   - Each clip bar renders a **mini waveform amplitude preview** (Audio) or **note activity preview** (MIDI) inside the bar so you can immediately see where sound starts and peaks, alongside per-subtrack **`M`** (Mute) and **`S`** (Solo) badges toggled via `M` / `S`.
   - Select `C1–C4` (`F`/`X` or Knob 2), switch tools (`T` or `ENTER`):
+    - **`SPLIT`** *(first tool)*: Move playhead to exact cut point with **Knob 3** or `Z`/`C`, press **`ENTER`** to slice into a free slot
     - **`MOVE`**: Push/drag subtrack (`Z`/`C` ±1 beat, or literal **Knob 3** across visible window)
     - **`TRM-L` / `TRM-R`**: Non-destructively trim start or finish (`Z`/`C` or Knob 3)
-    - **`SPLIT`**: Move playhead to exact cut point with **Knob 3** or `Z`/`C`, press **`ENTER`** to slice into a free slot
+    - **`DUP`**: Duplicate selected subtrack into the next free slot right after it (`ENTER`)
     - **`JOIN`**: Merge all active subtracks on the track into `C1` (`ENTER`)
     - **`DEL`**: Delete selected subtrack (`ENTER`, or double-tap **`D`** anytime!)
-  - All edits support **16-step `Ctrl+Z` (Undo) and `Ctrl+Y` (Redo)**!
+  - Copy & paste subtracks across slots or tracks with **`Ctrl+C` / `Ctrl+V`**, and undo/redo any edit with **16-step `Ctrl+Z` / `Ctrl+Y`**!
 
 ### Tab 2: `MIX` — Channel Strip & External Input Routing
 

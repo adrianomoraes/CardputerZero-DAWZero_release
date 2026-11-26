@@ -9,6 +9,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ---
 
+## [0.4.1] - 2026-11-26
+
+### Added
+- **Subtrack Clipboard (`Ctrl+C` / `Ctrl+V`) & Duplicate Tool (`DUP`)**:
+  - Copy and paste Audio or MIDI subtracks (`C1–C4`) at the playhead across slots or same-type tracks with full 16-step `Ctrl+Z` / `Ctrl+Y` Undo & Redo.
+  - Added **`DUP`** tool in `TRK → CLIP` to duplicate the selected subtrack directly into the next free slot right after it.
+
+### Changed
+- **`SPLIT` Promoted to First Tool in `TRK → CLIP`**:
+  - Tool cycle order is now `SPLIT / MOVE / TRM-L / TRM-R / DUP / JOIN / DEL`.
+- **Two-Column Yellow/White Help Overlay (`Alt+M` `?` / `Fn+H` / `H`)**:
+  - Upgraded the context-sensitive Help overlay to an aligned 2-column layout with commands highlighted in yellow (`#FFE066`) and descriptions in white (`#F8FAFC`).
+
+### Fixed
+- **Edge-to-Edge Waveform Bin Scaling Under Zoom (`TRK → CLIP` & `TRK → WAVE`)**:
+  - Replaced floored integer bin widths with proportional `(b * inner_w) / nbins` mapping (up to 80 bins in `CLIP`, 64 bins in `WAVE`), so inner amplitude waveforms always align pixel-exact with clip borders at every zoom level.
+
+---
+
 ## [0.4.0] - 2026-11-25
 
 ### Added
