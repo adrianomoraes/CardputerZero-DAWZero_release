@@ -30,8 +30,10 @@
 | `K` | Toggle **Metronome Click** sound (`ON` / `OFF`) globally |
 | `L` | Toggle Loop mode |
 | `BACKSPACE` | Rewind playhead to Bar `1.1` |
-| **Hold `Sym+M` (`?`)** | Show context-sensitive **Help overlay** with all commands for the current view |
+| **Hold/Tap `Alt+M` (`?`) or `H`** | Show context-sensitive 2-column **Help overlay** with all commands for the current view |
 | **Hold `ESC` (800 ms)** | Auto-save session cleanly and exit to `APPLaunch` |
+
+![Context-Sensitive Help Overlay](docs/images/tab-help.png)
 
 ### Alesis V61 MIDI Controller (Dual-Layer Knobs)
 On startup, DAW Zero initializes the V61 toggle buttons to **`1: ON`**, **`2: OFF`**, **`3: OFF`**, **`4: OFF`** and keeps LEDs synchronized with transport state:
@@ -77,6 +79,10 @@ Switch between the 4 subtabs anytime on `TRK` using **`V`**, **`Q`/`E`**, or **V
 
 ### Tab 2: `MIX` — 3 Subtabs (`1:BOARD` | `2:STRIP` | `3:FX`)
 
+| `1:BOARD` — 8-Ch Vertical Mixer | `2:STRIP` — Channel Strip | `3:FX` — Modular DSP Chain |
+|:---:|:---:|:---:|
+| ![MIX BOARD](docs/images/tab-mix-board.png) | ![MIX STRIP](docs/images/tab-mix.png) | ![MIX FX](docs/images/tab-fx.png) |
+
 Switch between subtabs anytime on `MIX` using **`V`**, **`Q`/`E`**, or **V61 Knob 4 (`NAV` mode)**:
 
 - **`1:BOARD` (8-Channel Vertical Mixer Console):**
@@ -85,9 +91,6 @@ Switch between subtabs anytime on `MIX` using **`V`**, **`Q`/`E`**, or **V61 Kno
   - Select channel linearly (`AUD 1` → `MID 2`, non-wrapping) with **`Z`/`C`** or **Knob 2**; adjust **Volume** with **`F`/`X`** or **Knob 3**; adjust **Pan** with **`U`/`I`**; toggle **`M` / `S` / `A`**; press **`ENTER`** to jump straight into **`3:FX`** for that channel.
 
 - **`2:STRIP` (Channel Strip & External Input Routing):**
-
-  ![MIX Tab](docs/images/tab-mix.png)
-
   Select any track linearly from `AUD 1` to `MID 2` (non-wrapping) on row 1 (`Z`/`C` or Knob 3), then configure:
   - **Volume** (`0%` – `150%`) and **Pan** (`L100` – `C` – `R100`).
   - **For Audio Tracks (`AUD 1–6`):**
@@ -99,9 +102,6 @@ Switch between subtabs anytime on `MIX` using **`V`**, **`Q`/`E`**, or **V61 Kno
   - **Master Vol:** Overall stereo master bus level (with built-in soft limiter).
 
 - **`3:FX` (Modular Filter & Effects Chain):**
-
-  ![FX Tab](docs/images/tab-fx.png)
-
   - **Row 0 (`Track`):** Select target track (`AUD 1–6` for 4 insert slots `1/4–4/4`, or `MID 1–2` to target the **Master Bus** `1/2–2/2`).
   - **Row 1 (`FX Slot`):** `Z/C` switches slots.
   - **Row 2 (`FX Plugin`):** `Z/C` cycles through all built-in and external `.so` plugins:

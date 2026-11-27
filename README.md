@@ -28,8 +28,8 @@ Record external instruments over USB audio interfaces (e.g., M-Audio M-Track Duo
 | `TRK → CTRL` — 8-Track Console | `TRK → TIME` — Multitrack Timeline | `TRK → WAVE` — Waveform & Ruler |
 |:---:|:---:|:---:|
 | ![TRK CTRL](docs/images/tab-trk-ctrl.png) | ![TRK TIME](docs/images/tab-trk-time.png) | ![TRK WAVE](docs/images/tab-trk-wave.png) |
-| **`TRK → CLIP` — 4 Subtracks (`C1–C4`)** | **`MIX → 2:STRIP` — Channel Strip** | **`MIX → 3:FX` — Modular DSP Chain** |
-| ![TRK CLIP](docs/images/tab-trk-clip.png) | ![MIX Tab](docs/images/tab-mix.png) | ![FX Tab](docs/images/tab-fx.png) |
+| **`TRK → CLIP` — 4 Subtracks (`C1–C4`)** | **`MIX → 1:BOARD` — 8-Ch Mixer** | **`MIX → 3:FX` — Modular DSP Chain** |
+| ![TRK CLIP](docs/images/tab-trk-clip.png) | ![MIX BOARD](docs/images/tab-mix-board.png) | ![FX Tab](docs/images/tab-fx.png) |
 | **`MID → 1:ROUT` — Hosted Inst & Bounce** | **`MID → 2:INST` — Live Inst Controls** | **`SES → 2:MON` — Real-Time Monitor** |
 | ![MID ROUT](docs/images/tab-mid-rout.png) | ![MID INST](docs/images/tab-mid-inst.png) | ![SES MON](docs/images/tab-ses-mon.png) |
 
