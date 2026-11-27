@@ -1,6 +1,6 @@
 # DAW Zero — User & Developer Manual
 
-**Version:** 0.4.2  
+**Version:** 0.5.0  
 **Target Hardware:** M5Stack CardputerZero (CM0 / ARM64 Linux, 320 × 170 LCD, 46-key keyboard)  
 **Audio / MIDI Stack:** PipeWire + ALSA PCM (Full-Duplex 48 kHz) + ALSA Sequencer (`SND_SEQ_OPEN_DUPLEX`)  
 **Release History:** See [CHANGELOG.md](CHANGELOG.md)
@@ -14,17 +14,18 @@
 |---|---|
 | `TAB` / `Shift+TAB` | Next / Previous tab |
 | `1` – `6` | Jump directly to tab (`1:TRK`, `2:MIX`, `3:REC`, `4:MID`, `5:AUD`, `6:SES`) |
-| `V` or `Q` / `E` | Switch subtabs on **`TRK`** (`CTRL / TIME / WAVE / CLIP`), **`MIX`** (`1:BOARD / 2:STRIP / 3:FX`), **`MID`** (`1:ROUT / 2:INST`), and **`SES`** (`1:PROJ / 2:MON`) |
-| `F` / `X` (or `↑` / `↓`) | Move selection Up / Down (track, row, or subtrack `C1–C4`) |
-| `Z` / `C` (or `←` / `→`) | Adjust value, scrub playhead, move/trim subtracks, or cycle options |
-| `U` / `I` | **Horizontal Zoom Out / In** on `TIME`, `WAVE`, `CLIP` (`ALL ↔ 32B ↔ 16B ↔ 8B ↔ 4B`) |
-| `Alt+U` / `Alt+I` (`[` / `]`) | On `TIME`: set **Loop Start (`[`) / Loop End (`]`)** at playhead bar. On `WAVE` & `CLIP`: **Vertical Amplitude Zoom** (`1x..16x`) |
+| `V` or `Q` / `E` | Switch subtabs on **`TRK`** (`CTRL / TIME / WAVE / CLIP`), **`MIX`** (`1:BOARD / 2:STRIP / 3:FX`), **`MID`** (`1:ROUT / 2:MID1 / 3:MID2`), and **`SES`** (`1:PROJ / 2:MON / 3:EXP`) |
+| `F` / `X` (or `↑` / `↓`) | Move selection Up / Down (track, row, subtrack `C1–C4`, or channel/Master fader on `MIX → 1:BOARD`) |
+| `Z` / `C` (or `←` / `→`) | Adjust value, zoom-proportional scrub/move/trim (`1` → `1/16` beat), or cycle options |
+| `U` / `I` | **Horizontal Zoom Out / In** on `TIME`, `WAVE`, `CLIP` (`ALL ↔ 32B ↔ 16B ↔ 8B ↔ 4B`), or **Pan** on `MIX → 1:BOARD` |
+| `Alt+U` / `Alt+I` (`[` / `]`) | On `TIME`: set **Loop Start (`[`) / Loop End (`]`)** (or per-track Poly loop length in `Per-Track Poly` mode). On `WAVE` & `CLIP`: **Vertical Amplitude Zoom** (`1x..16x`) |
+| `N` | On `TRK → TIME` (`Regions` mode): switch **Loop Region `A → B → C`** (quantized on next bar boundary while playing). On `MID`: toggle `2:MID1 ↔ 3:MID2` |
 | `T` | Cycle edit tool on `TRK → CLIP` (`SPLIT / MOVE / TRM-L / TRM-R / DUP / JOIN / DEL`) |
 | `Ctrl+C` / `Ctrl+V` | Copy / Paste selected subtrack `C1–C4` at the playhead (Audio→Audio or MIDI→MIDI) |
 | `D` (tap twice) | Fast delete selected **Track** (on `CTRL/TIME/WAVE`) or **Subtrack `C1–C4`** (on `CLIP`) |
 | `Ctrl+Z` / `Ctrl+Y` | **16-step Undo / Redo** (also `Ctrl+Shift+Z` for Redo) |
-| `ENTER` | Execute row action (Arm, Bypass, Split/Join/Del, Launch Inst, Rename, Save, Rescan) |
-| `SPACE` | Play / Stop transport |
+| `ENTER` | Execute row action (Arm, Bypass, Split/Join/Del, Launch Inst, Rename, Save, Export, Rescan) |
+| `SPACE` *(tap x2: Jump)* | Play / Stop transport; **double-tap quickly (< 450 ms)** to jump to the start of the active subtrack / zoomed view (or Bar `1.1`) |
 | `R` | Start / Stop Recording on armed tracks |
 | `A` / `M` / `S` | Arm / Mute / Solo selected track (or Mute / Solo selected subtrack `C1–C4` on `TRK → CLIP`) |
 | `K` | Toggle **Metronome Click** sound (`ON` / `OFF`) globally |
@@ -85,20 +86,20 @@ Switch between the 4 subtabs anytime on `TRK` using **`V`**, **`Q`/`E`**, or **V
 
 Switch between subtabs anytime on `MIX` using **`V`**, **`Q`/`E`**, or **V61 Knob 4 (`NAV` mode)**:
 
-- **`1:BOARD` (8-Channel Vertical Mixer Console):**
-  - Displays all 8 channels (`A1–A6`, `M1–M2`) side-by-side in a compact console view.
-  - Each channel strip includes a **top rotary Pan dial**, a **vertical Volume slider** with live peak meter bar, and **`M`** (Mute), **`S`** (Solo), and **`FX`** (active insert count) badges.
-  - Select channel linearly (`AUD 1` → `MID 2`, non-wrapping) with **`Z`/`C`** or **Knob 2**; adjust **Volume** with **`F`/`X`** or **Knob 3**; adjust **Pan** with **`U`/`I`**; toggle **`M` / `S` / `A`**; press **`ENTER`** to jump straight into **`3:FX`** for that channel.
+- **`1:BOARD` (9-Strip Vertical Mixer Console: `A1–A6`, `M1–M2`, `MST`):**
+  - Displays all 8 channels plus the far-right amber **`MST` Master Volume** strip side-by-side with **top rotary Pan dials**, **vertical Volume sliders**, continuous **30 FPS live peak VU meters** (`teal → amber → red`), and **`M`**, **`S`**, and **`FX`** badges.
+  - Select linearly (`A1` → `M2` → `MST`, non-wrapping) with **`Z`/`C`** or **Knob 2**; adjust **Volume / Master Vol** with **`F`/`X`** or **Knob 3**; adjust **Pan** with **`U`/`I`**; toggle **`M` / `S` / `A`** (muting/soloing MIDI channels automatically sends All-Notes-Off so no note ever hangs); press **`ENTER`** to jump straight into **`3:FX`** for that channel (or Master Bus on `MST`).
 
-- **`2:STRIP` (Channel Strip & External Input Routing):**
+- **`2:STRIP` (Channel Strip, Input Routing & MIDI Quantize):**
   Select any track linearly from `AUD 1` to `MID 2` (non-wrapping) on row 1 (`Z`/`C` or Knob 3), then configure:
-  - **Volume** (`0%` – `150%`) and **Pan** (`L100` – `C` – `R100`).
+  - **Volume** (`0%` – `150%`, sends CC 7 + scales Note-On velocities on MIDI tracks) and **Pan** (`L100` – `C` – `R100`, sends CC 10 on MIDI tracks).
   - **For Audio Tracks (`AUD 1–6`):**
-    - **`Ext Audio In`:** Choose `IN 1 (L)` (mono left channel), `IN 2 (R)` (mono right channel), `IN 1+2 ST` (stereo pair), `INST BUS`, or `OFF`. Displays `[USB]` or `[INT]` to confirm which physical interface is active.
-    - **`Monitor`:** `ON (Live)` routes your live instrument input through the track's FX chain to the outputs so you can hear effects while playing; set `OFF` if you use hardware direct monitoring on your USB interface.
+    - **`Ext Audio In`:** Choose `IN 1 (L)`, `IN 2 (R)`, `IN 1+2 ST`, `INST BUS`, or `OFF`. Displays `[USB]` or `[INT]`.
+    - **`Monitor`:** `ON (Live)` routes your live input through the track's FX chain; set `OFF` for hardware direct monitoring.
   - **For MIDI Tracks (`MID 1–2`):**
-    - **`MIDI Out`:** Connected external digital instrument / synthesizer port.
+    - **`MIDI Out`:** Connected hosted instrument (`PianoZero`/`DXZero`) or external USB-MIDI synth port.
     - **`MIDI Thru`:** `ON` forwards live incoming keyboard notes immediately to the target instrument.
+    - **`Quantize`:** Non-destructive real-time playback quantization slider (**`OFF`**, **`1/32`**, **`1/16`**, **`1/8T`**, **`1/8`**, **`1/4`**, **`1/2`**, adjustable via `Z`/`C`, `ENTER`, or V61 Knob 3).
   - **Master Vol:** Overall stereo master bus level (with built-in soft limiter).
 
 - **`3:FX` (Modular Filter & Effects Chain):**
@@ -121,26 +122,28 @@ Switch between subtabs anytime on `MIX` using **`V`**, **`Q`/`E`**, or **V61 Kno
 - Displays **IN L / IN R** live capture VU bars and a 24-bar output scope so you can set input gain on your USB interface before recording.
 - Quick rows to **Start/Stop Rec**, toggle **Metronome**, or **Clear** the selected track's take.
 
-### Tab 4: `MID` — 2 Subtabs (`1:ROUT` | `2:INST`)
+### Tab 4: `MID` — 3 Subtabs (`1:ROUT` | `2:MID1` | `3:MID2`)
 
-| `1:ROUT` — Routing & Hosted Instruments | `2:INST` — Live Exported Instrument Controls |
-|:---:|:---:|
-| ![MID ROUT](docs/images/tab-mid-rout.png) | ![MID INST](docs/images/tab-mid-inst.png) |
+| `1:ROUT` — Routing & Bounce | `2:MID1` — MID 1 Inst & Params | `3:MID2` — MID 2 Inst & Params |
+|:---:|:---:|:---:|
+| ![MID ROUT](docs/images/tab-mid-rout.png) | ![MID 1](docs/images/tab-mid-inst.png) | ![MID 2](docs/images/tab-mid-inst2.png) |
 
-Switch between subtabs anytime on `MID` using **`V`**, **`Q`/`E`**, or **V61 Knob 4 (`NAV` mode)**:
-- **`1:ROUT` (Hosted Instruments, External MIDI & Live Bounce):**
-  - **`Host Inst`:** Pick **`PianoZero`**, **`DXZero`**, or **`None`** (`Z`/`C`) and press **`ENTER`** to launch it headlessly inside DAW Zero! DAW Zero automatically creates the PipeWire `INST BUS`, wires `MID 1` and `AUD 1`, and opens a Unix control socket (`DAWZERO_CTRL_SOCK`) so the instrument's controls appear in **`2:INST`**.
+Switch between subtabs anytime on `MID` using **`V`**, **`Q`/`E`**, or **V61 Knob 4 (`NAV` mode)** (press **`N`** to quick-toggle `2:MID1 ↔ 3:MID2`):
+- **`1:ROUT` (External MIDI Routing & Live Bounce):**
+  - Top bar shows both running hosted slots (`M1:DXZ · M2:DXZ`).
   - **`MIDI Track`:** Switch between `MID 1` and `MID 2` (shows `[ARM]` and recorded event count).
   - **`Ext Inst Out`:** `Z/C` cycles all discovered ALSA Sequencer MIDI output ports (`PianoZero`, `DXZero`, or external USB-MIDI keyboards/synths).
   - **`MIDI Out Ch`:** `ORIG` (keep original channel) or force `CH 1–16`.
   - **`MIDI Thru`:** `ON -> Inst` or `OFF`.
   - **`Bounce To`:** Choose the destination audio track (`AUD 1` – `AUD 6`).
-  - **`Live Bounce`:** Press `ENTER` to play the MIDI track through `PianoZero` / `DXZero` (or an external keyboard) while recording its audio directly into the chosen `AUD` track (auto-stops 2 seconds after the last note).
+  - **`Live Bounce`:** Press `ENTER` to play the MIDI track through its hosted or external instrument while recording its audio directly into the chosen `AUD` track (auto-stops 2 seconds after the last note).
   - **`Rescan MIDI`:** Press `ENTER` after hot-plugging a USB-MIDI instrument to discover its ports and resync V61 LEDs.
-- **`2:INST` (Dynamic Hosted Instrument Controls):**
-  - Displays the live controls exported by whichever digital instrument is currently hosted via the generic **`DAWZERO_CTRL_SOCK`** protocol (`rotary`, `numeric`, `toggle`, and `trigger` controls). Adjust with **`Z`/`C`** or smoothly sweep with **V61 Knob 3**; toggle/trigger with **`ENTER`**:
-  - **`DXZero` exports:** `Bank`, `Instrument` (Patch), `Seq Track` (`FM1/FM2/FM3/DRUMS/FM0 LIVE`), `Seq Pattern` (`A–D`), `Seq Play` (`PLAY`/`STOP`), `Seq Rewind`, `Sync DAW BPM` (`ON` by default — auto-aligns DXZero's sequencer & tempo-synced FX to DAW Zero's BPM), `FX Wet Mix`, and `Filter Cutoff`.
-  - **`PianoZero` exports:** `Sound Bank`, `Touch Curve`, `Reverb FX` (`ON`/`OFF`), `Reverb Send`, `Tone Tilt` EQ, `Pedal/Mech` sounds (`ON`/`OFF`), and `Pedal Level`.
+- **`2:MID1` & `3:MID2` (Dual Hosted Instruments & Live Parameters):**
+  - Run **`PianoZero + DXZero`** or **`2× DXZero`** simultaneously (with an automatic RAM guardrail blocking `2× PianoZero` on 414 MB RAM).
+  - **Row 0 (`Host Inst`):** Pick **`None`**, **`PianoZero`**, or **`DXZero`** (`Z`/`C`) and press **`ENTER`** to launch or stop it headlessly for that exact MIDI track! DAW Zero binds each instance to its own ALSA MIDI client ID and Unix control socket (`DAWZERO_CTRL_SOCK`), and automatically saves/restores both running instruments and their patches with the session.
+  - **Rows 1+ (Dynamic Controls):** Adjust with **`Z`/`C`** or smoothly sweep with **V61 Knob 3**; toggle/trigger with **`ENTER`**:
+    - **`DXZero` exports:** `Bank`, `Instrument` (Patch), `Seq Track`, `Seq Pattern`, `Seq Play`, `Seq Rewind`, `Sync DAW BPM`, `FX Wet Mix`, and `Filter Cutoff`.
+    - **`PianoZero` exports:** `Sound Bank`, `Touch Curve`, `Reverb FX`, `Reverb Send`, `Tone Tilt` EQ, `Pedal/Mech`, and `Pedal Level`.
 
 ### Tab 5: `AUD` — Audio Interface & Latency Settings
 
@@ -153,23 +156,21 @@ Switch between subtabs anytime on `MID` using **`V`**, **`Q`/`E`**, or **V61 Kno
 - **`Rescan USB`:** Press `ENTER` after plugging in a USB audio interface.
 - Bottom bar shows live **DSP CPU %** and **XRUN** counter.
 
-### Tab 6: `SES` — 2 Subtabs (`1:PROJ` | `2:MON`)
+### Tab 6: `SES` — 3 Subtabs (`1:PROJ` | `2:MON` | `3:EXP`)
 
-| `1:PROJ` — Sessions, Backups & Export | `2:MON` — Real-Time Audio & Hardware Health |
-|:---:|:---:|
-| ![SES PROJ](docs/images/tab-ses-proj.png) | ![SES MON](docs/images/tab-ses-mon.png) |
+| `1:PROJ` — Sessions & Loop Mode | `2:MON` — Real-Time Health | `3:EXP` — Multi-Format Export |
+|:---:|:---:|:---:|
+| ![SES PROJ](docs/images/tab-ses-proj.png) | ![SES MON](docs/images/tab-ses-mon.png) | ![SES EXP](docs/images/tab-ses-exp.png) |
 
 Switch between subtabs with **`V`**, **`Q`/`E`**, or **V61 Knob 4 (`CC 23`)**:
-- **`1:PROJ` (Project, Backups & Custom Names):**
+- **`1:PROJ` (Project, Loop Mode & Full State Persistence):**
   - Displays the active session directory (`~/DAWZero-Sessions/<SessionName>/`), live file summary (`WAV` / `MID` counts, active track counts, total session MB, free microSD GB).
-  - **Auto-Save & Auto-Restore:** Sessions auto-save after every recording take and on clean exit (`Hold ESC`), and auto-restore on launch. All filenames in `session.txt` are **relative**, so every session folder is 100% portable for backups or moving across drives.
-  - Actions: **`Load Session`** (`Z`/`C` to pick, `ENTER` to switch), **`Rename`** (type a custom name directly on the CardputerZero keyboard), **`Save Session`**, **`Export Mix` (`mixdown.wav`)**, **`New Session`**, and **`Rescan .so FX`**.
+  - **Full Auto-Save & Auto-Restore:** Sessions auto-save on session switch, instrument launch, recording stop, and clean exit (`Hold ESC`), persisting all WAV/MIDI clips, per-subtrack Mute/Solo, Track & Master FX chains, Loop Mode & regions, MIDI Quantize, and running hosted instruments (`MID 1` / `MID 2`) + patches.
+  - Actions: **`Load Session`**, **`Loop Mode`** (`Regions (A/B/C)` vs `Per-Track Poly`), **`Rename`**, **`Save Session`**, **`Export Audio`** (jumps to `3:EXP`), **`New Session`**, and **`Rescan .so FX`**.
 - **`2:MON` (Real-Time Audio & Hardware Health Monitor):**
-  - **DSP CPU Load %** (color-coded bar: teal → amber → red above 80%)
-  - **Cracks/Drop (`XRUN` / `BUS-UR`)**: Highlights red if any audio dropouts or `INST BUS` underruns occurred; press **`ENTER`** to reset counters.
-  - **RAM Usage** (`Used / Total MB` bar)
-  - **`INST BUS` Buffer** (fill % for hosted `PianoZero` / `DXZero`)
-  - **Hardware Telemetry**: CPU temperature (`°C`), CPU frequency (`MHz`), buffer latency (`ms`), and free disk space (`GB`).
+  - **DSP CPU Load %**, **Cracks/Drop (`XRUN` / `BUS-UR`)** (`ENTER` resets), **RAM Usage**, **`INST BUS` Buffer** (showing both hosted slots e.g. `DXZ+DXZ`), and **Hardware Telemetry** (CPU temp, clock, latency, free disk).
+- **`3:EXP` (Configurable Audio Export & Mixdown):**
+  - Configure **Format** (`WAV`, `FLAC`, `MP3`, `OGG`, `OPUS`), **Encoding / Bitrate** (`16/24/32-bit Float` WAV, `16/24-bit` FLAC, `128–320 kbps` MP3/OGG/OPUS), **Sample Rate** (`48 kHz` / `44.1 kHz`), **Channels** (`Stereo` / `Mono`), **Range** (`Full Song` or `Loop [start–end]`), **Loop Repeats** (`1x`–`8x`), **FX Tail** (`0s` / `2s` / `4s`), **Apply FX** (`ON` / `OFF`), **Normalize** (`OFF` / `-1.0 dB` / `-0.3 dB`), and **Export Mode** (`Mixdown Only` or `Mix + Stems`). Press **`ENTER`** on **`Export Now`** to render into `~/DAWZero-Sessions/<Session>/`.
 
 ---
 

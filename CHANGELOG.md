@@ -9,6 +9,40 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ---
 
+## [0.5.0] - 2026-11-27
+
+### Added
+- **Multi-Format Audio Export UI (`SES → 3:EXP`) & Upgraded Offline Mixdown Engine**:
+  - Added dedicated **`3:EXP`** subtab under **`SES`** (`1:PROJ | 2:MON | 3:EXP`) with 11 configurable rows: **Format** (`WAV`, `FLAC`, `MP3`, `OGG`, `OPUS`), **Encoding** (`16/24/32-bit Float` WAV, `16/24-bit Lossless` FLAC, `128–320 kbps` MP3/OGG/OPUS), **Sample Rate** (`48 kHz` / `44.1 kHz`), **Channels** (`Stereo` / `Mono`), **Range** (`Full Song` or `Loop [start–end]`), **Loop Repeats** (`1x`–`8x`), **FX Tail** (`0s` / `2s` / `4s`), **Apply FX** (fresh offline Track + Master FX clones), **Normalize** (`OFF` / `-1.0 dB` / `-0.3 dB` two-pass zero-RAM peak scan), and **Export Mode** (`Mixdown Only` or `Mix + Stems`).
+  - Native C++ RIFF/WAVE writer for native-rate WAV (`16/24/32f`) and zero-temp-file `f32le` piping into `ffmpeg` for compressed/resampled formats.
+- **Dual Hosted Digital Instruments (`MID → 1:ROUT | 2:MID1 | 3:MID2`)**:
+  - Each MIDI track (`MID 1` and `MID 2`) now hosts its own independent headless instrument (`PianoZero` or `DXZero`) with its own `DAWZERO_CTRL_SOCK` control socket, BPM sync, and strict ALSA Sequencer client ID binding (supporting **`PianoZero + DXZero`** or **`2× DXZero`**, with a RAM guardrail preventing `2× PianoZero` on 414 MB RAM).
+  - Dedicated **`2:MID1`** and **`3:MID2`** subtabs put `Host Inst` launch/stop right on Row 0 followed directly by all live exported parameters (`Bank`, `Instrument`, `FX Wet Mix`, `Filter Cutoff`, etc.).
+- **Dual Loop Strategies (Per-Session Selectable in `SES → 1:PROJ`)**:
+  - **`Regions (A/B/C)` (Default)**: 3 switchable loop regions (`A`, `B`, `C`) with independent `[start–end]` markers (`Alt+U`/`Alt+I` on `TRK → TIME`) and quantized bar-boundary section switching via **`N`** (`LP A>B`).
+  - **`Per-Track Poly`**: Independent per-track polyrhythmic loop lengths (`OFF, 1B, 2B, 3B, 4B, 6B, 8B`) on every Audio & MIDI track, wrapping organically during playback and `SES → 3:EXP` offline export.
+- **Far-Right `MST` Master Volume Fader & Live 30 FPS VU Meters on `MIX → 1:BOARD`**:
+  - Compacted channel strips to fit all **9 strips (`A1–A6`, `M1–M2`, `MST`)** with continuous live peak VU meters (`teal → amber → red`) and direct Master Volume + Master FX access.
+- **Non-Destructive MIDI `Quantize` Slider on `MIX → 2:STRIP`**:
+  - Per-MIDI-track real-time quantization slider (`OFF`, `1/32`, `1/16`, `1/8T`, `1/8`, `1/4`, `1/2`, saved in `session.txt` as `t<i>_mquant`), adjustable with `Z`/`C`, `ENTER`, or V61 Knob 3.
+- **Zoom-Proportional Subtrack Tool Precision & Double-Tap Play/Stop Jump**:
+  - `SPLIT`, `MOVE`, `TRM-L`, `TRM-R` (and `WAVE` scrubbing) step proportionally with horizontal zoom (`Z:ALL = 1 beat` down to `Z:4B = 1/16 beat`).
+  - Double-tapping **`SPACE`** or **V61 Button 2** within `450 ms` stops and jumps the playhead to the start of the active subtrack / zoomed window (or Bar `1.1`).
+- **Full Session State Persistence & `Demo_NeonPulse` Showcase Session**:
+  - Sessions now persist and auto-restore Track & Master FX chains, per-subtrack Mute/Solo, Loop Mode & `A/B/C` / Poly loop lengths, MIDI Quantize, and running hosted instruments (`inst0_type`/`inst1_type`) with their saved patches (`inst0_init`/`inst1_init`), auto-saving on session switch and exit.
+  - Added [`examples/Demo_NeonPulse/`](examples/Demo_NeonPulse/) and [`scripts/generate_demo_session.py`](scripts/generate_demo_session.py): an 8-bar, 120 BPM showcase session with all 6 Audio tracks, 2 MIDI tracks driving 2× `DXZero`, Track & Master FX, `A/B/C` regions, and polyrhythmic lengths.
+
+### Changed
+- **MIDI Channel Volume & Pan Control**: `MID 1` / `MID 2` mixer Volume & Pan now send MIDI **CC 7 / CC 10** and scale Note-On velocities independently per channel.
+- **Wider `AUD` Device Labels**: Expanded `In Dev` / `Out Dev` text width to `31` characters so full USB/built-in device names display clearly.
+
+### Fixed
+- **Zero Hanging MIDI Notes on Mute / Solo**: Added `send_midi_all_notes_off()` (CC 64=0, CC 123=0, CC 120=0) on track Mute, Solo silencing, and subtrack Mute/Solo, and always pass pending Note-Off events through during playback.
+- **Fixed UI Freeze When Switching `AUD` Input/Output Devices**: Made device/buffer switching non-blocking via async audio-thread restart and `snd_pcm_drop()` before `snd_pcm_close()`.
+- **Fixed Double `shutdown()` Wiping Hosted Instruments on Exit**: Guarded `DawEngine::shutdown()` with `shutdown_done_` so `~DawEngine()` never overwrites `session.txt` after instruments stop, and initialized ALSA MIDI before session restore so hosted instruments bind immediately on reopen.
+
+---
+
 ## [0.4.2] - 2026-11-27
 
 ### Added

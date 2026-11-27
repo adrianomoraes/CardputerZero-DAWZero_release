@@ -1,0 +1,1 @@
+deb3002483ce9930efa40072bf4da926be883fb5e35892f12e58eca5a2101dd1  daw-zero_0.5.0-m5stack1_arm64.deb
