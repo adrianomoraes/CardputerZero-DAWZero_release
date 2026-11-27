@@ -115,6 +115,9 @@ Switch between subtabs anytime on `MIX` using **`V`**, **`Q`/`E`**, or **V61 Kno
   - Press `DELETE` to clear the current FX slot.
 
 ### Tab 3: `REC` — Live Input Monitor & Take Control
+
+![REC Tab](docs/images/tab-rec.png)
+
 - Displays **IN L / IN R** live capture VU bars and a 24-bar output scope so you can set input gain on your USB interface before recording.
 - Quick rows to **Start/Stop Rec**, toggle **Metronome**, or **Clear** the selected track's take.
 

@@ -25,8 +25,13 @@
       "docs/images/tab-mix-board.png",
       "docs/images/tab-mix.png",
       "docs/images/tab-fx.png",
+      "docs/images/tab-rec.png",
+      "docs/images/tab-mid-rout.png",
       "docs/images/tab-mid-inst.png",
-      "docs/images/tab-ses-mon.png"
+      "docs/images/tab-aud.png",
+      "docs/images/tab-ses-proj.png",
+      "docs/images/tab-ses-mon.png",
+      "docs/images/tab-help.png"
     ],
     "permissions": {
       "keyboard_input": true,
