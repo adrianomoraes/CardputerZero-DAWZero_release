@@ -1,6 +1,6 @@
 # DAW Zero — User & Developer Manual
 
-**Version:** 0.4.1  
+**Version:** 0.4.2  
 **Target Hardware:** M5Stack CardputerZero (CM0 / ARM64 Linux, 320 × 170 LCD, 46-key keyboard)  
 **Audio / MIDI Stack:** PipeWire + ALSA PCM (Full-Duplex 48 kHz) + ALSA Sequencer (`SND_SEQ_OPEN_DUPLEX`)  
 **Release History:** See [CHANGELOG.md](CHANGELOG.md)
@@ -13,12 +13,12 @@
 | Key | Action |
 |---|---|
 | `TAB` / `Shift+TAB` | Next / Previous tab |
-| `1` – `7` | Jump directly to tab (`1:TRK`, `2:MIX`, `3:FX`, `4:REC`, `5:MID`, `6:AUD`, `7:SES`) |
-| `V` or `Q` / `E` | Switch subtabs on **`TRK`** (`CTRL / TIME / WAVE / CLIP`), **`MID`** (`1:ROUT / 2:INST`), and **`SES`** (`1:PROJ / 2:MON`) |
+| `1` – `6` | Jump directly to tab (`1:TRK`, `2:MIX`, `3:REC`, `4:MID`, `5:AUD`, `6:SES`) |
+| `V` or `Q` / `E` | Switch subtabs on **`TRK`** (`CTRL / TIME / WAVE / CLIP`), **`MIX`** (`1:BOARD / 2:STRIP / 3:FX`), **`MID`** (`1:ROUT / 2:INST`), and **`SES`** (`1:PROJ / 2:MON`) |
 | `F` / `X` (or `↑` / `↓`) | Move selection Up / Down (track, row, or subtrack `C1–C4`) |
 | `Z` / `C` (or `←` / `→`) | Adjust value, scrub playhead, move/trim subtracks, or cycle options |
 | `U` / `I` | **Horizontal Zoom Out / In** on `TIME`, `WAVE`, `CLIP` (`ALL ↔ 32B ↔ 16B ↔ 8B ↔ 4B`) |
-| `Alt+U` / `Alt+I` (`[` / `]`) | **Vertical Amplitude Zoom Out / In** on `WAVE` & `CLIP` (`1x ↔ 2x ↔ 4x ↔ 8x ↔ 16x`) |
+| `Alt+U` / `Alt+I` (`[` / `]`) | On `TIME`: set **Loop Start (`[`) / Loop End (`]`)** at playhead bar. On `WAVE` & `CLIP`: **Vertical Amplitude Zoom** (`1x..16x`) |
 | `T` | Cycle edit tool on `TRK → CLIP` (`SPLIT / MOVE / TRM-L / TRM-R / DUP / JOIN / DEL`) |
 | `Ctrl+C` / `Ctrl+V` | Copy / Paste selected subtrack `C1–C4` at the playhead (Audio→Audio or MIDI→MIDI) |
 | `D` (tap twice) | Fast delete selected **Track** (on `CTRL/TIME/WAVE`) or **Subtrack `C1–C4`** (on `CLIP`) |
@@ -39,8 +39,8 @@ On startup, DAW Zero initializes the V61 toggle buttons to **`1: ON`**, **`2: OF
 |---|---|---|---|
 | **Knob 1** | `CC 20` | Switch Tabs (`TRK` → `SES`) | **Timeline Zoom** (`ALL ↔ 32B ↔ 16B ↔ 8B ↔ 4B`) |
 | **Knob 2** | `CC 21` | Select Track / Row / Subtrack (`C1–C4`) | **Scroll / Pan Zoomed Window** across song |
-| **Knob 3** | `CC 22` | Scrub Playhead / Move Subtrack / Adjust Value | **Selected Track Volume** *(or FX Param 1 on `FX`)* |
-| **Knob 4** | `CC 23` | Switch Subtabs (`TRK`, `MID`, `SES`) | **Master Volume** |
+| **Knob 3** | `CC 22` | Scrub Playhead / Move Subtrack / Adjust Value (`MIX → 1:BOARD`: Selected Channel Vol) | **Selected Track Volume** *(or FX Param 1 on `MIX → 3:FX`)* |
+| **Knob 4** | `CC 23` | Switch Subtabs (`TRK`: sweeps `CTRL → TIME → WAVE → CLIP` + all 7 tools; `MIX`, `MID`, `SES`) | **Master Volume** |
 | **Button 1** | `CC 48` | Toggle **`NAV`** (ON) ↔ **`ZOOM / MIX`** (OFF) | *(same)* |
 | **Button 2** | `CC 49` | **Play** (ON) / **Stop** (OFF) | *(same)* |
 | **Button 3** | `CC 50` | **Record Start** (ON) / **Record Stop** (OFF) | *(same)* |
@@ -71,45 +71,54 @@ Switch between the 4 subtabs anytime on `TRK` using **`V`**, **`Q`/`E`**, or **V
     - **`MOVE`**: Push/drag subtrack (`Z`/`C` ±1 beat, or literal **Knob 3** across visible window)
     - **`TRM-L` / `TRM-R`**: Non-destructively trim start or finish (`Z`/`C` or Knob 3)
     - **`DUP`**: Duplicate selected subtrack into the next free slot right after it (`ENTER`)
-    - **`JOIN`**: Merge all active subtracks on the track into `C1` (`ENTER`)
+    - **`JOIN`**: Merge only non-muted subtracks (or only soloed subtracks if any are soloed) into a single clip, leaving excluded subtracks untouched (`ENTER`)
     - **`DEL`**: Delete selected subtrack (`ENTER`, or double-tap **`D`** anytime!)
   - Copy & paste subtracks across slots or tracks with **`Ctrl+C` / `Ctrl+V`**, and undo/redo any edit with **16-step `Ctrl+Z` / `Ctrl+Y`**!
 
-### Tab 2: `MIX` — Channel Strip & External Input Routing
+### Tab 2: `MIX` — 3 Subtabs (`1:BOARD` | `2:STRIP` | `3:FX`)
 
-![MIX Tab](docs/images/tab-mix.png)
+Switch between subtabs anytime on `MIX` using **`V`**, **`Q`/`E`**, or **V61 Knob 4 (`NAV` mode)**:
 
-Select any track (`AUD 1–6` or `MID 1–2`) on row 1, then configure:
-- **Volume** (`0%` – `150%`) and **Pan** (`L100` – `C` – `R100`).
-- **For Audio Tracks (`AUD 1–6`):**
-  - **`Ext Audio In`:** Choose `IN 1 (L)` (mono left channel), `IN 2 (R)` (mono right channel), `IN 1+2 ST` (stereo pair), or `OFF`. Displays `[USB]` or `[INT]` to confirm which physical interface is active.
-  - **`Monitor`:** `ON (Live)` routes your live instrument input through the track's FX chain to the outputs so you can hear effects while playing; set `OFF` if you use hardware direct monitoring on your USB interface.
-- **For MIDI Tracks (`MID 1–2`):**
-  - **`MIDI Out`:** Connected external digital instrument / synthesizer port.
-  - **`MIDI Thru`:** `ON` forwards live incoming keyboard notes immediately to the target instrument.
-- **Master Vol:** Overall stereo master bus level (with built-in soft limiter).
+- **`1:BOARD` (8-Channel Vertical Mixer Console):**
+  - Displays all 8 channels (`A1–A6`, `M1–M2`) side-by-side in a compact console view.
+  - Each channel strip includes a **top rotary Pan dial**, a **vertical Volume slider** with live peak meter bar, and **`M`** (Mute), **`S`** (Solo), and **`FX`** (active insert count) badges.
+  - Select channel linearly (`AUD 1` → `MID 2`, non-wrapping) with **`Z`/`C`** or **Knob 2**; adjust **Volume** with **`F`/`X`** or **Knob 3**; adjust **Pan** with **`U`/`I`**; toggle **`M` / `S` / `A`**; press **`ENTER`** to jump straight into **`3:FX`** for that channel.
 
-### Tab 3: `FX` — Modular Filter & Effects Chain
+- **`2:STRIP` (Channel Strip & External Input Routing):**
 
-![FX Tab](docs/images/tab-fx.png)
+  ![MIX Tab](docs/images/tab-mix.png)
 
-- Each audio track (`AUD 1–6`) has **4 insert slots** (`Slot 1/4` – `4/4`). Selecting a MIDI track targets the **Master Bus** (`Slot 1/2` – `2/2`).
-- **Row 0 (`Target / Slot`):** `Z/C` switches slots.
-- **Row 1 (`FX Plugin`):** `Z/C` cycles through all built-in and external `.so` plugins:
-  1. **SVF Filter** (`Mode`: LPF/HPF/BPF/Notch, `Cutoff`, `Reso`, `Drive`)
-  2. **Soft Overdrive** (`Drive dB`, `Tone Hz`, `Mix %`)
-  3. **Stereo Delay** (`Time ms`, `Fdbk %`, `Damp Hz`, `Mix %`)
-  4. **Gain & Utility** (`Gain dB`, `Mono`, `Phase`)
-  5. **Warm LPF (.so)** *(example external plugin)* + any custom `.so` plugins you install.
-- **Row 2 (`FX State`):** `ENTER` or `Z/C` toggles `ACTIVE` / `BYPASSED`.
-- **Rows 3+:** Real-time parameter controls with visual bars.
-- Press `DELETE` to clear the current FX slot.
+  Select any track linearly from `AUD 1` to `MID 2` (non-wrapping) on row 1 (`Z`/`C` or Knob 3), then configure:
+  - **Volume** (`0%` – `150%`) and **Pan** (`L100` – `C` – `R100`).
+  - **For Audio Tracks (`AUD 1–6`):**
+    - **`Ext Audio In`:** Choose `IN 1 (L)` (mono left channel), `IN 2 (R)` (mono right channel), `IN 1+2 ST` (stereo pair), `INST BUS`, or `OFF`. Displays `[USB]` or `[INT]` to confirm which physical interface is active.
+    - **`Monitor`:** `ON (Live)` routes your live instrument input through the track's FX chain to the outputs so you can hear effects while playing; set `OFF` if you use hardware direct monitoring on your USB interface.
+  - **For MIDI Tracks (`MID 1–2`):**
+    - **`MIDI Out`:** Connected external digital instrument / synthesizer port.
+    - **`MIDI Thru`:** `ON` forwards live incoming keyboard notes immediately to the target instrument.
+  - **Master Vol:** Overall stereo master bus level (with built-in soft limiter).
 
-### Tab 4: `REC` — Live Input Monitor & Take Control
+- **`3:FX` (Modular Filter & Effects Chain):**
+
+  ![FX Tab](docs/images/tab-fx.png)
+
+  - **Row 0 (`Track`):** Select target track (`AUD 1–6` for 4 insert slots `1/4–4/4`, or `MID 1–2` to target the **Master Bus** `1/2–2/2`).
+  - **Row 1 (`FX Slot`):** `Z/C` switches slots.
+  - **Row 2 (`FX Plugin`):** `Z/C` cycles through all built-in and external `.so` plugins:
+    1. **SVF Filter** (`Mode`: LPF/HPF/BPF/Notch, `Cutoff`, `Reso`, `Drive`)
+    2. **Soft Overdrive** (`Drive dB`, `Tone Hz`, `Mix %`)
+    3. **Stereo Delay** (`Time ms`, `Fdbk %`, `Damp Hz`, `Mix %`)
+    4. **Gain & Utility** (`Gain dB`, `Mono`, `Phase`)
+    5. **Warm LPF (.so)** *(example external plugin)* + any custom `.so` plugins you install.
+  - **Row 3 (`FX State`):** `ENTER` or `Z/C` toggles `ACTIVE` / `BYPASSED`.
+  - **Rows 4+:** Real-time parameter controls with visual bars.
+  - Press `DELETE` to clear the current FX slot.
+
+### Tab 3: `REC` — Live Input Monitor & Take Control
 - Displays **IN L / IN R** live capture VU bars and a 24-bar output scope so you can set input gain on your USB interface before recording.
 - Quick rows to **Start/Stop Rec**, toggle **Metronome**, or **Clear** the selected track's take.
 
-### Tab 5: `MID` — 2 Subtabs (`1:ROUT` | `2:INST`)
+### Tab 4: `MID` — 2 Subtabs (`1:ROUT` | `2:INST`)
 
 | `1:ROUT` — Routing & Hosted Instruments | `2:INST` — Live Exported Instrument Controls |
 |:---:|:---:|
@@ -130,7 +139,7 @@ Switch between subtabs anytime on `MID` using **`V`**, **`Q`/`E`**, or **V61 Kno
   - **`DXZero` exports:** `Bank`, `Instrument` (Patch), `Seq Track` (`FM1/FM2/FM3/DRUMS/FM0 LIVE`), `Seq Pattern` (`A–D`), `Seq Play` (`PLAY`/`STOP`), `Seq Rewind`, `Sync DAW BPM` (`ON` by default — auto-aligns DXZero's sequencer & tempo-synced FX to DAW Zero's BPM), `FX Wet Mix`, and `Filter Cutoff`.
   - **`PianoZero` exports:** `Sound Bank`, `Touch Curve`, `Reverb FX` (`ON`/`OFF`), `Reverb Send`, `Tone Tilt` EQ, `Pedal/Mech` sounds (`ON`/`OFF`), and `Pedal Level`.
 
-### Tab 6: `AUD` — Audio Interface & Latency Settings
+### Tab 5: `AUD` — Audio Interface & Latency Settings
 
 ![AUD Tab](docs/images/tab-aud.png)
 
@@ -141,7 +150,7 @@ Switch between subtabs anytime on `MID` using **`V`**, **`Q`/`E`**, or **V61 Kno
 - **`Rescan USB`:** Press `ENTER` after plugging in a USB audio interface.
 - Bottom bar shows live **DSP CPU %** and **XRUN** counter.
 
-### Tab 7: `SES` — 2 Subtabs (`1:PROJ` | `2:MON`)
+### Tab 6: `SES` — 2 Subtabs (`1:PROJ` | `2:MON`)
 
 | `1:PROJ` — Sessions, Backups & Export | `2:MON` — Real-Time Audio & Hardware Health |
 |:---:|:---:|
@@ -165,9 +174,9 @@ Switch between subtabs with **`V`**, **`Q`/`E`**, or **V61 Knob 4 (`CC 23`)**:
 
 ### A. Recording an External Digital Instrument into an Audio Track
 1. Connect your digital keyboard's audio output to your USB audio interface (or CardputerZero 3.5 mm TRRS input).
-2. Open **`AUD`** (`6`) and confirm `Input Dev` is your USB interface (or `Auto (PipeWire)`).
-3. Open **`MIX`** (`2`), select `AUD 1`, set `Ext Audio In` to `IN 1 (L)`, `IN 2 (R)`, or `IN 1+2 ST`, and set `Monitor` to `ON (Live)` if you want to hear it through **`FX`**.
-4. Open **`FX`** (`3`) to insert a filter/effect on `AUD 1` (optional — FX are non-destructive on playback and monitoring, so your raw recording stays clean!).
+2. Open **`AUD`** (`5`) and confirm `Input Dev` is your USB interface (or `Auto (PipeWire)`).
+3. Open **`MIX → 2:STRIP`** (`2`), select `AUD 1`, set `Ext Audio In` to `IN 1 (L)`, `IN 2 (R)`, or `IN 1+2 ST`, and set `Monitor` to `ON (Live)` if you want to hear it through **`FX`**.
+4. Switch to **`MIX → 3:FX`** (`V` or `E`) to insert a filter/effect on `AUD 1` (optional — FX are non-destructive on playback and monitoring, so your raw recording stays clean!).
 5. Press `A` to arm `AUD 1`, press `R` (or V61 Btn 3) to start recording, play your instrument, and press `R` or `SPACE` to stop.
 
 ### B. Multitrack Overdubbing (Parallel Playback + Recording)
@@ -179,7 +188,7 @@ Switch between subtabs with **`V`**, **`Q`/`E`**, or **V61 Knob 4 (`CC 23`)**:
 ### C. Generating an Audio Track from a MIDI Track (`Live Bounce`)
 1. Connect your external digital keyboard via **USB-MIDI** (for notes) and **Audio** (into your USB audio interface).
 2. Arm `MID 1` (`A`), record your MIDI performance (`R`), and stop.
-3. Open **`MID`** (`5`), set `Ext Inst Out` to your digital keyboard, pick `Bounce To: AUD 3` (any free audio track), and press `ENTER` on **`Live Bounce`**.
+3. Open **`MID`** (`4`), set `Ext Inst Out` to your digital keyboard, pick `Bounce To: AUD 3` (any free audio track), and press `ENTER` on **`Live Bounce`**.
 4. DAW Zero rewinds to `1.1`, sends `MID 1` to your external digital keyboard, records its audio into `AUD 3`, and automatically stops 2 seconds after the last note. `AUD 3` is now a full audio track ready for mixing and **`FX`**!
 
 ---

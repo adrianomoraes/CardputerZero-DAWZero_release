@@ -9,6 +9,30 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ---
 
+## [0.4.2] - 2026-11-27
+
+### Added
+- **3-Subtab `MIX` Console (`1:BOARD` | `2:STRIP` | `3:FX`)**:
+  - Consolidated `FX` into `MIX` as subtab **`3:FX`**, streamlining the top ribbon to 6 tabs (`TRK | MIX | REC | MID | AUD | SES`).
+  - Added **`MIX → 1:BOARD`** 8-channel vertical mixer console displaying all channels (`A1–A6`, `M1–M2`) side-by-side with top rotary Pan dials, vertical Volume sliders + live peak bars, and `M` / `S` / `FX` badges (`Z`/`C` or Knob 2 selects channel, `F`/`X` or Knob 3 adjusts volume, `U`/`I` adjusts pan, `M`/`S`/`A` toggles, `ENTER` opens `3:FX`).
+- **`TRK → TIME` Loop Markers & Multi-Take Loop Recording (`C1→C4`)**:
+  - Set Loop Start (`Alt+U` `[`) and Loop End (`Alt+I` `]`) markers on `TRK → TIME` and toggle loop playback/recording with **`L`**.
+  - Recording with Loop enabled automatically rotates into the next empty subtrack (`C1→C4`) on every loop wrap, notifying `"No subtrack available (4/4 full)"` when all 4 slots are filled.
+- **V61 Knob 4 Seamless Subtab + Tool Sweep on `TRK`**:
+  - Turning Alesis V61 Knob 4 in `NAV` mode now sweeps continuously through `CTRL → TIME → WAVE → CLIP` and all 7 edit tools (`SPLIT / MOVE / TRM-L / TRM-R / DUP / JOIN / DEL`) while keeping `T` working as before.
+
+### Changed
+- **Selective `JOIN` Tool (`TRK → CLIP`)**:
+  - `JOIN` now merges only **soloed** subtracks (if any subtrack on the track is soloed) or only **non-muted** subtracks (otherwise), leaving excluded subtracks untouched.
+- **Clamped Linear Track Selection on `MIX`**:
+  - Track selection on `MIX` (`1:BOARD`, `2:STRIP`, `3:FX`) now moves linearly from **`AUD 1` to `MID 2`** without wrapping around, for both keyboard (`Z`/`C`) and V61 **Knob 3**.
+
+### Fixed
+- **Loop Recording 4th Subtrack (`C4`) Handling**:
+  - Fixed multi-take loop wrap checking to evaluate each armed track independently so a full 4/4 track (e.g. `MID 1`) no longer aborts recording on another armed track that still has `C4` open.
+
+---
+
 ## [0.4.1] - 2026-11-26
 
 ### Added
