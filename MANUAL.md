@@ -1,6 +1,6 @@
 # DAW Zero — User & Developer Manual
 
-**Version:** 0.5.0  
+**Version:** 0.5.1  
 **Target Hardware:** M5Stack CardputerZero (CM0 / ARM64 Linux, 320 × 170 LCD, 46-key keyboard)  
 **Audio / MIDI Stack:** PipeWire + ALSA PCM (Full-Duplex 48 kHz) + ALSA Sequencer (`SND_SEQ_OPEN_DUPLEX`)  
 **Release History:** See [CHANGELOG.md](CHANGELOG.md)
@@ -20,14 +20,16 @@
 | `U` / `I` | **Horizontal Zoom Out / In** on `TIME`, `WAVE`, `CLIP` (`ALL ↔ 32B ↔ 16B ↔ 8B ↔ 4B`), or **Pan** on `MIX → 1:BOARD` |
 | `Alt+U` / `Alt+I` (`[` / `]`) | On `TIME`: set **Loop Start (`[`) / Loop End (`]`)** (or per-track Poly loop length in `Per-Track Poly` mode). On `WAVE` & `CLIP`: **Vertical Amplitude Zoom** (`1x..16x`) |
 | `N` | On `TRK → TIME` (`Regions` mode): switch **Loop Region `A → B → C`** (quantized on next bar boundary while playing). On `MID`: toggle `2:MID1 ↔ 3:MID2` |
-| `T` | Cycle edit tool on `TRK → CLIP` (`SPLIT / MOVE / TRM-L / TRM-R / DUP / JOIN / DEL`) |
+| `T` | On `TRK → CLIP`: cycle edit tool (`VIEW / SPLIT / MOVE / TRM-L / TRM-R / DUP / JOIN / DEL`). On `TRK → WAVE`: toggle `VIEW` (centered playhead + view scrub) vs `SEEK` |
+| `G` | Toggle **Magnetic Object & Grid `SNAP`** ON/OFF on `TRK → TIME / WAVE / CLIP` (snaps to other clips' start/end edges, playhead, loop markers, and bar lines) |
+| `B` | Open **MIDI Render / Bounce Overlay** from any channel or subtrack view (`MID 1/2` All or single `C1–C4` → `AUD 1–6` subtrack `C1–C4`, `Master (FX)`, or `Master (Dry)`) |
 | `Ctrl+C` / `Ctrl+V` | Copy / Paste selected subtrack `C1–C4` at the playhead (Audio→Audio or MIDI→MIDI) |
 | `D` (tap twice) | Fast delete selected **Track** (on `CTRL/TIME/WAVE`) or **Subtrack `C1–C4`** (on `CLIP`) |
 | `Ctrl+Z` / `Ctrl+Y` | **16-step Undo / Redo** (also `Ctrl+Shift+Z` for Redo) |
 | `ENTER` | Execute row action (Arm, Bypass, Split/Join/Del, Launch Inst, Rename, Save, Export, Rescan) |
 | `SPACE` *(tap x2: Jump)* | Play / Stop transport; **double-tap quickly (< 450 ms)** to jump to the start of the active subtrack / zoomed view (or Bar `1.1`) |
 | `R` | Start / Stop Recording on armed tracks |
-| `A` / `M` / `S` | Arm / Mute / Solo selected track (or Mute / Solo selected subtrack `C1–C4` on `TRK → CLIP`) |
+| `A` / `M` / `S` | Arm / Mute / Solo selected track (or `C1–C4` on `CLIP`). On `MIX → 1:BOARD`: **double-click `S`** clears all solos; **double-click `M`** turns all mutes OFF (or all ON if none were muted) |
 | `K` | Toggle **Metronome Click** sound (`ON` / `OFF`) globally |
 | `L` | Toggle Loop mode |
 | `BACKSPACE` | Rewind playhead to Bar `1.1` |

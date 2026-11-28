@@ -9,6 +9,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ---
 
+## [0.5.1] - 2026-11-28
+
+### Added
+- **6 New Built-In Stereo DSP FX Plugins (10 Total) & Clear-to-Empty (`MIX → 3:FX`)**:
+  - Added **Plate Reverb** (`Size`, `Damp`, `Width`, `Mix`), **Stereo Chorus** (`Rate`, `Depth`, `Fdbk`, `Mix`), **4-Stage Phaser** (`Rate`, `Depth`, `Fdbk`, `Mix`), **Bus Compressor** (`Thresh`, `Ratio`, `Rel`, `Makeup`), **3-Band EQ** (`Low`, `Mid`, `High`), and **Lo-Fi Bitcrush** (`Bits`, `Down`, `Mix`) — all stereo, zero-allocation in RT audio, and supported in both live playback and `SES → 3:EXP` offline mixdowns.
+  - Cycling the **FX Plugin** row on `MIX → 3:FX` now includes **`(Empty)`** at slot `0` so any effect can be cleanly unloaded with `Z`/`C` or Knob 3 (in addition to `DEL`).
+- **Quick MIDI Render Overlay (`B` key) & Direct Master Bounce (`MID → 1:ROUT`)**:
+  - Press **`B`** from any channel or subtrack view (`TRK`, `MIX`, `MID`) whenever `MID 1` or `MID 2` is selected to open a modal overlay to render the **entire MIDI channel (`All C1–C4`)** or a **single MIDI subtrack (`C1..C4`)** into any **Audio track (`AUD 1–6`) + subtrack (`Auto` or `C1..C4`)**, **`Master (FX)`** (`*_MasterFX.wav`), or **`Master (Dry)`** (`*_MasterDry.wav`).
+  - Added **`None (OFF)`**, **`Master (FX)`**, and **`Master (Dry)`** to `Bounce To` on `MID → 1:ROUT` so hosted instruments can be unrouted from `AUD 1–6` or routed directly to Master with or without Master FX.
+- **Centered Playhead + View Scrub Tool (`VIEW`) & Magnetic Object `SNAP` (`G` key)**:
+  - Added **`VIEW`** as the first tool on `TRK → CLIP` (`0=VIEW, 1=SPLIT, 2=MOVE, 3=TRM-L, 4=TRM-R, 5=DUP, 6=JOIN, 7=DEL`) and toggleable via **`T`** on `TRK → WAVE`. Moving `Z`/`C` or V61 Knob 3 moves the playhead across the entire song while scrolling the zoomed viewport with it (head advances to center → viewport scrolls keeping head centered → head glides to end).
+  - Added **`G`** (`SNAP` pill) on `TRK → TIME / WAVE / CLIP` to toggle magnetic object & grid snapping to other clips' start/end edges across all 8 tracks, the playhead, loop markers, and bar lines.
+- **`MIX → 1:BOARD` Double-Click `S` / `M` & Relative Vertical Faders**:
+  - **Double-click `S`** (≤ 450 ms) clears all Solos across all 8 channels (`All Solos: OFF`).
+  - **Double-click `M`** (≤ 450 ms) unmutes all channels if any are muted (`All Mutes: OFF`), or mutes all channels if none are muted (`All Mutes: ON`, sending MIDI All-Notes-Off).
+  - **V61 Knob 3** on `MIX → 1:BOARD` now controls vertical faders (`A1–M2`, `MST`) **relatively** with zero jump when switching channels, plus smooth **end-stop continuation** when the rotary knob hits `0` or `127` until pulled in the opposite direction.
+- **Highlighted-Channel Live MIDI Keyboard Routing**:
+  - Playing an external MIDI keyboard now routes live notes directly to the instrument connected to the **currently highlighted MIDI channel** (`M1` or `M2` on `MIX → 1:BOARD`, `TRK`, or `MID → 2:MID1 / 3:MID2`), with automatic Note-Off handoff when switching channels mid-note.
+
+---
+
 ## [0.5.0] - 2026-11-27
 
 ### Added

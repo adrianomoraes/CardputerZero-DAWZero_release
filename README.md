@@ -8,7 +8,7 @@
 
 *Created by **Adriano Dias Moraes***
 
-[![Latest Release](https://img.shields.io/badge/Release-v0.5.0-00E5B0?style=for-the-badge)](releases/v0.5.0/daw-zero_0.5.0-m5stack1_arm64.deb)
+[![Latest Release](https://img.shields.io/badge/Release-v0.5.1-00E5B0?style=for-the-badge)](releases/v0.5.1/daw-zero_0.5.1-m5stack1_arm64.deb)
 [![Platform](https://img.shields.io/badge/Platform-M5Stack%20CardputerZero%20(ARM64)-FF8C00?style=for-the-badge)](#installation)
 [![Manual](https://img.shields.io/badge/User%20Manual-MANUAL.md-00D4FF?style=for-the-badge)](MANUAL.md)
 [![Changelog](https://img.shields.io/badge/Changelog-CHANGELOG.md-FFB020?style=for-the-badge)](CHANGELOG.md)
@@ -47,6 +47,7 @@ Record external instruments over USB audio interfaces (e.g., M-Audio M-Track Duo
 
 | Version | Release Date | Package (ARM64 Debian) | Checksum | Notes |
 |---|---|---|---|---|
+| **`v0.5.1`** | 2026-11-28 | [`daw-zero_0.5.1-m5stack1_arm64.deb`](releases/v0.5.1/daw-zero_0.5.1-m5stack1_arm64.deb) | [`SHA256SUMS.txt`](releases/v0.5.1/SHA256SUMS.txt) | **6 new built-in stereo DSP FX (10 total: Reverb, Chorus, Phaser, Compressor, 3-Band EQ, Bitcrush) + `(Empty)` FX clear**, **`B` Quick MIDI Render Overlay** (All or single `C1–C4` → `AUD 1–6` subtrack or `Master FX / Master Dry`), **`None (OFF)` / `Master (FX)` / `Master (Dry)` Bounce targets**, **centered playhead + view scrub (`VIEW` tool)**, **`G` magnetic object/grid `SNAP` toggle**, **double-click `S`/`M` on `MIX → 1:BOARD`**, **relative V61 vertical faders with end-stop glide**, and **highlighted-channel live MIDI keyboard routing** — see [CHANGELOG.md](CHANGELOG.md) |
 | **`v0.5.0`** | 2026-11-27 | [`daw-zero_0.5.0-m5stack1_arm64.deb`](releases/v0.5.0/daw-zero_0.5.0-m5stack1_arm64.deb) | [`SHA256SUMS.txt`](releases/v0.5.0/SHA256SUMS.txt) | **Multi-format Audio Export UI (`SES → 3:EXP`: WAV/FLAC/MP3/OGG/OPUS, Loop/Stems/FX/Norm)**, **Dual Hosted Digital Instruments (`MID → 2:MID1 | 3:MID2`) with auto-save/restore**, **Dual Loop Modes (`Regions A/B/C` + `Per-Track Poly`)**, **9-strip `MIX → 1:BOARD` with `MST` Master fader & 30 FPS VU meters**, **MIDI `Quantize` slider (`OFF..1/2`)**, **zoom-proportional tool precision**, **double-tap Play/Stop jump**, **MIDI All-Notes-Off on Mute/Solo**, and **non-blocking `AUD` device switching** — see [CHANGELOG.md](CHANGELOG.md) |
 | **`v0.4.2`** | 2026-11-27 | [`daw-zero_0.4.2-m5stack1_arm64.deb`](releases/v0.4.2/daw-zero_0.4.2-m5stack1_arm64.deb) | [`SHA256SUMS.txt`](releases/v0.4.2/SHA256SUMS.txt) | **3-subtab `MIX` Console (`1:BOARD` vertical 8-ch mixer / `2:STRIP` / `3:FX`)**, **6-tab top ribbon**, **`TRK → TIME` loop markers (`Alt+U`/`Alt+I`, `L`) + multi-take loop recording (`C1→C4`)**, **V61 Knob 4 continuous subtab + tool sweep**, **selective `JOIN` (soloed / non-muted)**, and **clamped linear `MIX` track selection** — see [CHANGELOG.md](CHANGELOG.md) |
 | **`v0.4.1`** | 2026-11-26 | [`daw-zero_0.4.1-m5stack1_arm64.deb`](releases/v0.4.1/daw-zero_0.4.1-m5stack1_arm64.deb) | [`SHA256SUMS.txt`](releases/v0.4.1/SHA256SUMS.txt) | **Subtrack `Ctrl+C`/`Ctrl+V` copy/paste**, **`DUP` duplicate tool**, **`SPLIT` as first tool**, **2-column yellow/white Help overlay**, and **pixel-exact proportional waveform scaling under zoom** — see [CHANGELOG.md](CHANGELOG.md) |
@@ -62,20 +63,20 @@ No compiler or build tools required. Install the prebuilt ARM64 `.deb` package d
 ### Option 1: Install Directly on CardputerZero
 Download the `.deb` package to your CardputerZero and run:
 ```bash
-sudo apt install -y ./daw-zero_0.5.0-m5stack1_arm64.deb
+sudo apt install -y ./daw-zero_0.5.1-m5stack1_arm64.deb
 ```
 
 ### Option 2: Install Remotely Over SSH (from macOS / Linux / Windows)
 ```bash
-scp releases/v0.5.0/daw-zero_0.5.0-m5stack1_arm64.deb <user>@<cardputer-ip>:/tmp/
-ssh <user>@<cardputer-ip> "sudo apt install -y /tmp/daw-zero_0.5.0-m5stack1_arm64.deb"
+scp releases/v0.5.1/daw-zero_0.5.1-m5stack1_arm64.deb <user>@<cardputer-ip>:/tmp/
+ssh <user>@<cardputer-ip> "sudo apt install -y /tmp/daw-zero_0.5.1-m5stack1_arm64.deb"
 ```
 
 After installation, **DAW Zero** appears automatically in the CardputerZero **`APPLaunch`** launcher with its neon icon.
 
 ### Verify Package Integrity (Optional)
 ```bash
-cd releases/v0.5.0
+cd releases/v0.5.1
 sha256sum -c SHA256SUMS.txt
 ```
 
